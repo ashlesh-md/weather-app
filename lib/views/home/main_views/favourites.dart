@@ -29,6 +29,7 @@ class _FavouriteState extends State<Favourite> {
       Get.put(GetSearchDataController());
   DeleteController deleteController = Get.put(DeleteController());
   FavouriteController favouriteController = Get.put(FavouriteController());
+  ControllerDrawer drawerController = Get.put(ControllerDrawer());
   @override
   void initState() {
     // TODO: implement initState
@@ -81,6 +82,9 @@ class _FavouriteState extends State<Favourite> {
                   Icons.search,
                   color: Colors.black,
                 ),
+                onTap: () {
+                  drawerController.changeState(DrawerConstants.search);
+                },
               )
             ],
           )),

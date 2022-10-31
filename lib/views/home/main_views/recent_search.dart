@@ -27,6 +27,7 @@ class _RecentSearchState extends State<RecentSearch> {
   GetSearchDataController getSearchDataController =
       Get.put(GetSearchDataController());
   DeleteController deleteController = Get.put(DeleteController());
+  ControllerDrawer drawerController = Get.put(ControllerDrawer());
   @override
   void initState() {
     getSearchDataController.getAllRecentFromStorage();
@@ -75,6 +76,9 @@ class _RecentSearchState extends State<RecentSearch> {
                   Icons.search,
                   color: Colors.black,
                 ),
+                onTap: () {
+                  drawerController.changeState(DrawerConstants.search);
+                },
               )
             ],
           )),
@@ -264,7 +268,7 @@ class _RecentSearchState extends State<RecentSearch> {
                                     ),
                                     GestureDetector(
                                       child: const Icon(
-                                        Icons.favorite,
+                                        Icons.search_off_outlined,
                                         color:
                                             Color.fromARGB(255, 216, 190, 23),
                                       ),

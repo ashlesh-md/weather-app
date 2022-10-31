@@ -63,12 +63,7 @@ class CustomDrawer extends StatelessWidget {
                   ListTile(
                     title: Text(
                       'Logout',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: drawerController
-                                  .getColor(DrawerConstants.recentSearch)
-                              ? Colors.black
-                              : Colors.grey),
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                     onTap: () {
                       FirebaseAuth.instance.signOut();
