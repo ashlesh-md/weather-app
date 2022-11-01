@@ -299,8 +299,7 @@ class _FavouriteState extends State<Favourite> {
                                               .getAllDataFromStorage();
                                           widget.drawerController.changeState(
                                               DrawerConstants.favourite);
-                                          deleteController.changeState(
-                                              !deleteController.isTapped);
+                                          deleteController.changeState(false);
                                         });
                                       },
                                     ),

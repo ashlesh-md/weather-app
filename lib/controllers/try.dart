@@ -86,7 +86,6 @@ class GetSearchDataController extends GetxController {
     _recent_search.clear();
     getAllDataFromStorage();
     getAllRecentFromStorage();
-
     super.onInit();
   }
 }

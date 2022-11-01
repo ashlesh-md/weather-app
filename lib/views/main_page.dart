@@ -8,9 +8,16 @@ import 'package:firebase_crud/views/home/main_views/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MainAppPage extends StatelessWidget {
+class MainAppPage extends StatefulWidget {
   MainAppPage({Key? key}) : super(key: key);
+
+  @override
+  State<MainAppPage> createState() => _MainAppPageState();
+}
+
+class _MainAppPageState extends State<MainAppPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
   ControllerDrawer drawerController = Get.put(ControllerDrawer());
 
   @override

@@ -292,6 +292,9 @@ class _FavouriteState extends State<Favourite> {
                                                                         DrawerConstants
                                                                             .favourite);
                                                                 getSearchDataController
+                                                                    .favourites
+                                                                    .clear();
+                                                                getSearchDataController
                                                                     .getAllDataFromStorage();
                                                                 Navigator.pop(
                                                                     context);

@@ -34,26 +34,14 @@ class IpDataController extends GetxController {
     allStateData.value.add(country);
     allStateData.value.add(state);
     allStateData.value.add(dateTimeTxt);
-    // print(allStateData);
-    // var jsonModelData = {
-    //   'country': country,
-    //   'state': state,
-    //   'timezone': timezone,
-    //   'date': date,
-    //   'dateTime': dateTime,
-    //   'dateTimeTxt': dateTimeTxt,
-    //   'dateTimeWti': dateTimeWti
-    // };
-    // IPGeoLocator dataModel = IPGeoLocator.fromJson(jsonModelData);
-    // _streamIpController.value.sink.add(dataModel);
   }
 
   @override
   void onInit() {
-    // super.onInit();
-    // Timer.periodic(Duration(seconds: 1), (timer) {
-    //   getIdata();
-    // });
+    super.onInit();
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      getIdata();
+    });
   }
 
   @override

@@ -1,10 +1,9 @@
 import 'package:firebase_crud/controllers/delete_controller.dart';
 import 'package:firebase_crud/controllers/drawer_controller.dart';
-import 'package:firebase_crud/controllers/favourite_controller.dart';
-import 'package:firebase_crud/controllers/ip_geo_location_controller.dart';
 import 'package:firebase_crud/views/home/components/custom_drawer.dart';
 import 'package:firebase_crud/controllers/try.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import '../../../constants/drawer.dart';
 import '../../../constants/image_getter.dart';
@@ -29,8 +28,6 @@ class _RecentSearchState extends State<RecentSearch> {
       Get.put(GetSearchDataController());
   DeleteController deleteController = Get.put(DeleteController());
   ControllerDrawer drawerController = Get.put(ControllerDrawer());
-  FavouriteController favouriteController = Get.put(FavouriteController());
-  IpDataController ipDataController = Get.put(IpDataController());
   @override
   void initState() {
     getSearchDataController.getAllRecentFromStorage();
@@ -218,7 +215,7 @@ class _RecentSearchState extends State<RecentSearch> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          '${getSearchDataController.recent_searches[index][0]}',
+                                          '${getSearchDataController.recent_searches[index][0] ?? 0}',
                                           style: const TextStyle(
                                               color: Color.fromARGB(
                                                   255, 255, 229, 57),
@@ -245,7 +242,7 @@ class _RecentSearchState extends State<RecentSearch> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                    '${getSearchDataController.recent_searches[index][1]}°c',
+                                                    '${getSearchDataController.recent_searches[index][1] ?? 0}°c',
                                                     style: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 18))
@@ -255,7 +252,7 @@ class _RecentSearchState extends State<RecentSearch> {
                                               width: 20,
                                             ),
                                             Text(
-                                                '${getSearchDataController.recent_searches[index][2]}',
+                                                '${getSearchDataController.recent_searches[index][2] ?? 0}',
                                                 style: const TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 16))
@@ -269,44 +266,39 @@ class _RecentSearchState extends State<RecentSearch> {
                                         ),
                                       ],
                                     ),
-                                    !getSearchDataController
-                                            .isFavourite(
-                                                '${getSearchDataController.recent_searches[index][0]}')
-                                            .value
-                                        ? GestureDetector(
-                                            child: const Icon(
-                                              Icons.favorite_border,
-                                              color: Colors.white,
-                                            ),
-                                            onTap: () {
-                                              addDataToFavourite(
-                                                  data:
-                                                      '${getSearchDataController.recent_searches[index][0]}');
-                                              favouriteController.set(true);
-                                              apiDataController.setvalue(
+                                    GestureDetector(
+                                      child: const Icon(
+                                        Icons.search_off_outlined,
+                                        color:
+                                            Color.fromARGB(255, 216, 190, 23),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          Fluttertoast.showToast(
+                                            msg: deleteController.isTapped
+                                                ? 'Tap again to delete'
+                                                : 'Deleted ${getSearchDataController.recent_searches[index][0]}',
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            backgroundColor:
+                                                Colors.white.withOpacity(0.75),
+                                            textColor: Colors.deepPurple,
+                                          );
+                                          deleteController.changeState(true);
+                                          removeDataToRecentSearch(
+                                              data:
                                                   '${getSearchDataController.recent_searches[index][0]}');
-                                              ipDataController.setvalue(
-                                                  '${getSearchDataController.recent_searches[index][0]}');
-                                              drawerController.changeState(
-                                                  DrawerConstants.home);
-                                            })
-                                        : GestureDetector(
-                                            child: Icon(
-                                              Icons.favorite,
-                                              color: Colors.yellow.shade600,
-                                            ),
-                                            onTap: () {
-                                              apiDataController.setvalue(
-                                                  '${getSearchDataController.recent_searches[index][0]}');
-                                              ipDataController.setvalue(
-                                                  '${getSearchDataController.recent_searches[index][0]}');
-                                              favouriteController.set(false);
-                                              removeDataToFavourite(
-                                                  data:
-                                                      '${getSearchDataController.recent_searches[index][0]}');
-                                              drawerController.changeState(
-                                                  DrawerConstants.home);
-                                            }),
+                                          getSearchDataController.favourites
+                                              .clear();
+                                          getSearchDataController
+                                              .getAllRecentFromStorage();
+                                          widget.drawerController.changeState(
+                                              DrawerConstants.recentSearch);
+                                          deleteController.changeState(
+                                              !deleteController.isTapped);
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ));
                           }),

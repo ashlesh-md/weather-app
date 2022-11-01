@@ -1,5 +1,7 @@
 import 'package:firebase_crud/controllers/api_data_controller.dart';
 import 'package:firebase_crud/controllers/drawer_controller.dart';
+import 'package:firebase_crud/controllers/favourite_controller.dart';
+import 'package:firebase_crud/controllers/ip_geo_location_controller.dart';
 import 'package:firebase_crud/controllers/search_auto_complete_controller.dart';
 import 'package:firebase_crud/firebase/crud.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,8 @@ class SearchPage extends StatelessWidget {
   ApiDataController apiDataController = Get.put(ApiDataController());
   GetSearchDataController getSearchDataController =
       Get.put(GetSearchDataController());
+  FavouriteController favouriteController = Get.put(FavouriteController());
+  IpDataController ipDataController = Get.put(IpDataController());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -112,9 +116,15 @@ class SearchPage extends StatelessWidget {
                                           data: '${data[index].name}');
                                       apiDataController
                                           .setvalue('${data[index].name}');
-                                      addDataToRecentSearch(
-                                          data: '${data[index].name}');
-
+                                      ipDataController
+                                          .setvalue('${data[index].name}');
+                                      if (getSearchDataController
+                                          .isFavourite('${data[index].name}')
+                                          .value) {
+                                        favouriteController.set(true);
+                                      } else {
+                                        favouriteController.set(false);
+                                      }
                                       drawerController
                                           .changeState(DrawerConstants.home);
                                     },
